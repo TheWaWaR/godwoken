@@ -83,14 +83,19 @@ int sys_load_nonce(gw_context_t *ctx, uint32_t account_id, uint8_t value[GW_VALU
 int sys_increase_nonce(gw_context_t *ctx, uint32_t account_id, uint32_t *new_nonce) {
   uint8_t old_nonce_value[GW_VALUE_BYTES];
   int ret = sys_load_nonce(ctx, account_id, old_nonce_value);
+  if (ret != 0) {
+    return ret;
+  }
   for (size_t i = 4; i < GW_VALUE_BYTES; i++) {
     if(old_nonce_value[i] != 0){
       return ERROR_INVALID_DATA;
     }
   }
   uint32_t next_nonce = *((uint32_t *)old_nonce_value) + 1;
+
   uint8_t nonce_key[GW_KEY_BYTES];
   uint8_t nonce_value[GW_VALUE_BYTES];
+  memset(nonce_value, 0, GW_VALUE_BYTES);
   gw_build_nonce_key(account_id, nonce_key);
   memcpy(nonce_value, (uint8_t *)(&next_nonce), 4);
   ret = syscall(GW_SYS_STORE, nonce_key, nonce_value, 0, 0, 0, 0);

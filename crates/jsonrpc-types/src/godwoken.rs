@@ -235,18 +235,18 @@ pub struct ChallengeContext {
     pub witness: StartChallengeWitness,
 }
 
-impl From<ChallengeContext> for gw_generator::ChallengeContext {
-    fn from(json: ChallengeContext) -> gw_generator::ChallengeContext {
+impl From<ChallengeContext> for gw_common::ChallengeContext {
+    fn from(json: ChallengeContext) -> gw_common::ChallengeContext {
         let ChallengeContext { args, witness } = json;
         let args: packed::StartChallenge = args.into();
         let witness: packed::StartChallengeWitness = witness.into();
-        gw_generator::ChallengeContext { args, witness }
+        gw_common::ChallengeContext { args, witness }
     }
 }
 
-impl From<gw_generator::ChallengeContext> for ChallengeContext {
-    fn from(data: gw_generator::ChallengeContext) -> ChallengeContext {
-        let gw_generator::ChallengeContext { args, witness } = data;
+impl From<gw_common::ChallengeContext> for ChallengeContext {
+    fn from(data: gw_common::ChallengeContext) -> ChallengeContext {
+        let gw_common::ChallengeContext { args, witness } = data;
         let args: StartChallenge = args.into();
         let witness: StartChallengeWitness = witness.into();
         Self { args, witness }

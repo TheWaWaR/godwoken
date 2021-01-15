@@ -1,19 +1,17 @@
+use crate::error::LockAlgorithmError;
 use crate::{account_lock_manage::AccountLockManage, backend_manage::BackendManage};
 use crate::{
     backend_manage::Backend,
     error::{Error, TransactionError, TransactionErrorWithContext},
 };
-use crate::{
-    error::LockAlgorithmError,
-    traits::{CodeStore, StateExt},
-};
-use crate::{error::ValidateError, syscalls::L2Syscalls, types::RunResult};
+use crate::{error::ValidateError, syscalls::L2Syscalls};
 use gw_common::{
     blake2b::new_blake2b,
     error::Error as StateError,
     h256_ext::H256Ext,
     state::{build_account_field_key, State, GW_ACCOUNT_NONCE},
-    H256,
+    traits::{CodeStore, StateExt},
+    RunResult, H256,
 };
 use gw_types::{
     core::ScriptHashType,

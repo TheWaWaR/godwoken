@@ -3,6 +3,7 @@
 
 use crate::Store;
 use anyhow::Result;
+use gw_common::traits::CodeStore;
 use gw_common::{
     error::Error,
     smt::SMT,
@@ -14,7 +15,6 @@ use gw_common::{
     },
     state::State,
 };
-use gw_generator::traits::CodeStore;
 use gw_types::{bytes::Bytes, packed::Script};
 use std::collections::{HashMap, HashSet};
 

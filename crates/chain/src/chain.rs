@@ -3,12 +3,10 @@ use crate::tx_pool::TxPool;
 use anyhow::{anyhow, Result};
 use gw_common::{
     h256_ext::H256Ext, merkle_utils::calculate_merkle_root, smt::Blake2bHasher, sparse_merkle_tree,
-    state::State, FINALIZE_BLOCKS, H256,
+    state::State, ChallengeContext, FINALIZE_BLOCKS, H256,
 };
 use gw_config::{ChainConfig, GenesisConfig};
-use gw_generator::{
-    generator::StateTransitionArgs, ChallengeContext, Error as GeneratorError, Generator,
-};
+use gw_generator::{generator::StateTransitionArgs, Error as GeneratorError, Generator};
 use gw_store::{transaction::StoreTransaction, Store};
 use gw_types::{
     bytes::Bytes,

@@ -4,13 +4,12 @@ use gw_chain::{
     next_block_context::NextBlockContext,
     tx_pool::TxPool,
 };
-use gw_common::{state::State, H256};
+use gw_common::{state::State, traits::CodeStore, H256};
 use gw_config::{ChainConfig, Config, GenesisConfig};
 use gw_db::{config::Config as DBConfig, schema::COLUMNS, RocksDB};
 use gw_generator::{
     account_lock_manage::{always_success::AlwaysSuccess, AccountLockManage},
     backend_manage::{Backend, BackendManage},
-    traits::CodeStore,
     Generator,
 };
 use gw_jsonrpc_types::{blockchain, genesis, parameter};
@@ -146,7 +145,7 @@ declare_types! {
             let js_l2_transaction = cx.argument::<JsArrayBuffer>(0)?;
             let l2_transaction_slice = cx.borrow(&js_l2_transaction, |data| { data.as_slice::<u8>() });
             let l2_transaction = packed::L2Transaction::from_slice(l2_transaction_slice).expect("Build packed::L2Transaction from slice");
-            let run_result: Result<gw_generator::RunResult > =
+            let run_result: Result<gw_common::RunResult > =
                 cx.borrow(&this, |data| {
                     data.chain.write().unwrap().tx_pool.lock().execute(l2_transaction)
                 });
@@ -165,7 +164,7 @@ declare_types! {
             let js_l2_transaction = cx.argument::<JsArrayBuffer>(0)?;
             let l2_transaction_slice = cx.borrow(&js_l2_transaction, |data| { data.as_slice::<u8>() });
             let l2_transaction = packed::L2Transaction::from_slice(l2_transaction_slice).expect("Build packed::L2Transaction from slice");
-            let run_result: Result<gw_generator::RunResult > =
+            let run_result: Result<gw_common::RunResult > =
                 cx.borrow(&this, |data| {
                     let chain = data.chain.write().unwrap();
                     let run_result = chain.tx_pool.lock().push(l2_transaction);

@@ -453,8 +453,8 @@ pub struct RunResult {
     pub logs: Vec<LogItem>,
 }
 
-impl From<RunResult> for gw_generator::RunResult {
-    fn from(json: RunResult) -> gw_generator::RunResult {
+impl From<RunResult> for gw_common::RunResult {
+    fn from(json: RunResult) -> gw_common::RunResult {
         let RunResult {
             read_values,
             write_values,
@@ -507,9 +507,9 @@ impl From<RunResult> for gw_generator::RunResult {
     }
 }
 
-impl From<gw_generator::RunResult> for RunResult {
-    fn from(run_result: gw_generator::RunResult) -> RunResult {
-        let gw_generator::RunResult {
+impl From<gw_common::RunResult> for RunResult {
+    fn from(run_result: gw_common::RunResult) -> RunResult {
+        let gw_common::RunResult {
             read_values,
             write_values,
             return_data,

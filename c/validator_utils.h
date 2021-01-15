@@ -94,7 +94,7 @@ int sys_increase_nonce(gw_context_t *ctx, uint32_t account_id, uint32_t *new_non
   }
   for (size_t i = 4; i < GW_VALUE_BYTES; i++) {
     if(old_nonce_value[i] != 0){
-      return ERROR_INVALID_DATA;
+      return GW_ERROR_INVALID_DATA;
     }
   }
   uint32_t next_nonce = *((uint32_t *)old_nonce_value) + 1;

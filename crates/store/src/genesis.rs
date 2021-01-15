@@ -1,13 +1,14 @@
 use crate::{transaction::StoreTransaction, Store};
 use anyhow::Result;
+use gw_common::traits::StateExt;
 use gw_common::{
+    builtin_scripts::META_CONTRACT_VALIDATOR_CODE_HASH,
     builtins::{CKB_SUDT_ACCOUNT_ID, RESERVED_ACCOUNT_ID},
     smt::{default_store::DefaultStore, H256, SMT},
     state::State,
     CKB_SUDT_SCRIPT_ARGS, CKB_SUDT_SCRIPT_HASH,
 };
 use gw_config::GenesisConfig;
-use gw_generator::{builtin_scripts::META_CONTRACT_VALIDATOR_CODE_HASH, traits::StateExt};
 use gw_types::{
     core::Status,
     packed::{
@@ -57,7 +58,7 @@ pub fn build_genesis_from_store(
     );
 
     // setup CKB simple UDT contract
-    let ckb_sudt_script = gw_generator::sudt::build_l2_sudt_script(CKB_SUDT_SCRIPT_ARGS.into());
+    let ckb_sudt_script = gw_common::sudt::build_l2_sudt_script(CKB_SUDT_SCRIPT_ARGS.into());
     assert_eq!(
         ckb_sudt_script.hash(),
         CKB_SUDT_SCRIPT_HASH,

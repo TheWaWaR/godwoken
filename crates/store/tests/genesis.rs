@@ -1,6 +1,6 @@
+use gw_common::traits::CodeStore;
 use gw_common::{sparse_merkle_tree::H256, state::State};
 use gw_config::GenesisConfig;
-use gw_generator::traits::CodeStore;
 use gw_store::{genesis::build_genesis, Store};
 use gw_types::{core::ScriptHashType, packed::HeaderInfo, prelude::*};
 use std::convert::TryInto;

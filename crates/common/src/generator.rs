@@ -1,4 +1,4 @@
-use gw_common::H256;
+use crate::H256;
 use gw_types::packed::{self, StartChallenge, StartChallengeWitness};
 use std::{
     collections::HashMap,

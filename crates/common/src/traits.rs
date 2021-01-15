@@ -1,9 +1,9 @@
-use crate::error::{Error, ValidateError};
+use crate::error::Error;
 use crate::sudt::build_l2_sudt_script;
-use crate::types::RunResult;
-use gw_common::{
+use crate::{
     builtins::CKB_SUDT_ACCOUNT_ID, error::Error as StateError,
-    merkle_utils::calculate_compacted_account_root, state::State, CKB_SUDT_SCRIPT_ARGS, H256,
+    merkle_utils::calculate_compacted_account_root, state::State, RunResult, CKB_SUDT_SCRIPT_ARGS,
+    H256,
 };
 use gw_types::{
     bytes::Bytes,
@@ -90,7 +90,7 @@ impl<S: State + CodeStore> StateExt for S {
                     };
                 // prevent fake CKB SUDT, the caller should filter these invalid depositions
                 if sudt_id == CKB_SUDT_ACCOUNT_ID {
-                    return Err(ValidateError::InvalidSUDTOperation.into());
+                    return Err(Error::InvalidSUDTOperation.into());
                 }
                 // mint SUDT
                 self.mint_sudt(sudt_id, id, request.amount().unpack())?;

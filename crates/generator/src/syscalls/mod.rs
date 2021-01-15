@@ -1,5 +1,3 @@
-use crate::traits::CodeStore;
-use crate::types::RunResult;
 use ckb_vm::{
     memory::Memory,
     registers::{A0, A1, A2, A3, A7},
@@ -12,7 +10,8 @@ use gw_common::{
         build_account_field_key, build_script_hash_to_account_id_key, State, GW_ACCOUNT_NONCE,
         GW_ACCOUNT_SCRIPT_HASH,
     },
-    H256,
+    traits::CodeStore,
+    RunResult, H256,
 };
 use gw_types::{
     bytes::Bytes,

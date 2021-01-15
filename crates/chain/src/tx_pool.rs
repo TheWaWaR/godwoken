@@ -11,6 +11,7 @@ use gw_generator::{
     Generator,
 };
 use gw_store::OverlayStore;
+use gw_store::Store;
 use gw_types::{
     packed::{BlockInfo, DepositionRequest, L2Block, L2Transaction, TxReceipt, WithdrawalRequest},
     prelude::*,
@@ -29,6 +30,7 @@ const MAX_DATA_BYTES_LIMIT: usize = 25_000;
 
 /// TODO remove txs from pool if a new block already contains txs
 pub struct TxPool {
+    store: Store,
     state: OverlayStore,
     generator: Arc<Generator>,
     queue: Vec<(L2Transaction, TxReceipt)>,
@@ -40,6 +42,7 @@ pub struct TxPool {
 
 impl TxPool {
     pub fn create(
+        store: Store,
         state: OverlayStore,
         generator: Arc<Generator>,
         tip: &L2Block,
@@ -51,6 +54,7 @@ impl TxPool {
         let next_block_info = gen_next_block_info(tip, nb_ctx)?;
         let rollup_type_script_hash = generator.rollup_type_script_hash.into();
         Ok(TxPool {
+            store,
             state,
             generator,
             queue,
@@ -108,9 +112,9 @@ impl TxPool {
         self.verify_tx(&tx)?;
         // 2. execute contract
         let raw_tx = tx.raw();
-        let run_result = self
-            .generator
-            .execute(&self.state, &self.next_block_info, &raw_tx)?;
+        let run_result =
+            self.generator
+                .execute(&self.store, &self.state, &self.next_block_info, &raw_tx)?;
         let write_data_bytes: usize = run_result.write_data.values().map(|data| data.len()).sum();
         if write_data_bytes > MAX_DATA_BYTES_LIMIT {
             return Err(anyhow!(

@@ -83,6 +83,7 @@ declare_types! {
                 };
                 let tip = packed::L2Block::default();
                 let tx_pool = TxPool::create(
+                    store.clone(),
                     store.new_overlay().expect("State new overlay"), Arc::clone(&generator),
                     &tip, nb_ctx).expect("Creating TxPool");
                 Arc::new(Mutex::new(tx_pool))

@@ -13,6 +13,7 @@ use gw_common::{
     traits::{CodeStore, StateExt},
     RunResult, H256,
 };
+use gw_store::Store;
 use gw_types::{
     core::ScriptHashType,
     packed::{
@@ -140,6 +141,7 @@ impl Generator {
     /// The caller is supposed to do the verification.
     pub fn apply_state_transition<S: State + CodeStore>(
         &self,
+        store: &Store,
         state: &mut S,
         args: StateTransitionArgs,
     ) -> Result<StateTransitionResult, Error> {
@@ -171,7 +173,7 @@ impl Generator {
             }
             // build call context
             // NOTICE users only allowed to send HandleMessage CallType txs
-            let run_result = match self.execute(state, &block_info, &raw_tx) {
+            let run_result = match self.execute(store, state, &block_info, &raw_tx) {
                 Ok(run_result) => run_result,
                 Err(err) => {
                     return Err(TransactionErrorWithContext::new(
@@ -235,6 +237,7 @@ impl Generator {
     /// execute a layer2 tx
     pub fn execute<S: State + CodeStore>(
         &self,
+        store: &Store,
         state: &S,
         block_info: &BlockInfo,
         raw_tx: &RawL2Transaction,
@@ -244,6 +247,7 @@ impl Generator {
             let core_machine = Box::<AsmCoreMachine>::default();
             let machine_builder =
                 DefaultMachineBuilder::new(core_machine).syscall(Box::new(L2Syscalls {
+                    store,
                     state,
                     block_info: block_info,
                     raw_tx,

@@ -48,6 +48,7 @@ fn setup_chain(rollup_type_script: &Script) -> Chain {
         .unwrap();
     let tip = store.get_tip_block().unwrap();
     let tx_pool = TxPool::create(
+        store.clone(),
         store.new_overlay().unwrap(),
         Arc::clone(&generator),
         &tip,

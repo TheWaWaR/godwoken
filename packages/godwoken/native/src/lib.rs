@@ -536,7 +536,7 @@ pub fn build_genesis_block(mut cx: FunctionContext) -> JsResult<JsString> {
     let genesis_config = cx.argument::<JsString>(0)?.value();
     let genesis_config: parameter::GenesisConfig =
         serde_json::from_str(&genesis_config).expect("Parse genesis config");
-    let rollup_config = cx.argument::<JsString>(0)?.value();
+    let rollup_config = cx.argument::<JsString>(1)?.value();
     let rollup_config: godwoken::RollupConfig =
         serde_json::from_str(&rollup_config).expect("Parse rollup config");
     let genesis_config: GenesisConfig = genesis_config.into();

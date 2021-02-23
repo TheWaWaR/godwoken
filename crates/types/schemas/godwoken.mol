@@ -27,13 +27,21 @@ struct GlobalState {
 }
 
 struct RollupConfig {
+    // sudt_generator.code_hash
     l1_sudt_script_type_hash: Byte32,
+    // custodian_lock.code_hash
     custodian_script_type_hash: Byte32,
+    // deposition_lock.code_hash
     deposition_script_type_hash: Byte32,
+    // withdrawal_lock.code_hash
     withdrawal_script_type_hash: Byte32,
+    // challenge_lock.code_hash
     challenge_script_type_hash: Byte32,
+    // stack_lock.code_hash
     stake_script_type_hash: Byte32,
+    // sudt_validator.code_hash
     l2_sudt_validator_script_type_hash: Byte32,
+    // burn.lock.hash
     burn_lock_hash: Byte32,
     required_staking_capacity: Uint64,
     challenge_maturity_blocks: Uint64,

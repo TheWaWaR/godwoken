@@ -370,6 +370,21 @@ const run = async () => {
   godwokenConfig.chain = {
     rollup_type_script: typeScript,
   };
+  godwokenConfig.rollup = {
+    custodian_script_type_hash: deploymentConfig.custodian_lock.code_hash;
+    deposition_script_type_hash: deploymentConfig.deposition_lock.code_hash;
+    withdrawal_script_type_hash: deploymentConfig.withdrawal_lock.code_hash;
+    challenge_script_type_hash: deploymentConfig.challenge_lock.code_hash;
+    stake_script_type_hash: deploymentConfig.stack_lock.code_hash;
+    l2_sudt_validator_script_type_hash: deploymentConfig.state_validator_type.code_hash;
+    // NOTE: The values are just for tests
+    burn_lock_hash: utils.computeScriptHash(deploymentConfig.state_lock),
+    l1_sudt_script_type_hash: "0x0000000000000000000000000000000000000000000000000000000000000000",
+    required_staking_capacity: 1,
+    challenge_maturity_blocks: 5,
+    finality_blocks: 5,
+    reward_burn_rate: 70,
+  };
   const runnerConfig = {
     deploymentConfig,
     godwokenConfig,
